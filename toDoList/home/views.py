@@ -12,7 +12,10 @@ set path for homepage
 
 def index(request):
     template_name = "home/templates/index.html"
-    todolist = Task.objects.filter(user=request.user)
+    if request.user.is_authenticated:
+        todolist = Task.objects.filter(user=request.user)
+    else:
+        todolist = Task.objects.filter(user=None)
     context = {'todolist': todolist}
     return render(request, template_name=template_name, context=context)
 

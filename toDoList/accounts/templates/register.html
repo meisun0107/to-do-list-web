@@ -30,34 +30,45 @@
         <div class="col">
             <div class="p-1 h1 text-primary text-center mx-auto display-inline-block" style="color: rgb(255, 0, 123)!important;">
                 <!--<i class="fa fa-sticky-note rounded p-2" style="color:rgb(255, 200, 0)!important"></i>-->
-                <b>💟 Login </b>
+                <b>📑 Registration </b>
             </div>
         </div>
     </div>
 
     <div class="row m-1 p-3">
       <div class="col col-11 mx-auto">
-            <form method="post" action=".">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username">
-                </div>
+          <form method="post" action=".">
+            {% csrf_token %}
+            <!-- 账号 -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <br>
+            <!-- 邮箱 -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email">
+            </div>
+            <br>
+            <!-- 密码 -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <br>
+            <!-- 确认密码 -->
+            <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input type="password" class="form-control" id="password2" name="password2" required>
+            </div>
+            <br>
                 <br>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                </div>
-                <br>
-                <br>
-                <div style="text-align: center;">
-                  <button type="submit" class="btn btn-primary" style="background-color: rgb(255, 0, 123)!important; border-color:transparent!important;">login</button>
-                </div>
-            </form>
-        <br>
-        <br>
-          <h6>Still don't have an account？click <a href='{% url "accounts:register" %}'> here </a> to join us 🧐</h6>
-          <br>
+            <!-- 提交按钮 -->
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-primary" style="background-color: rgb(255, 0, 123)!important; border-color:transparent!important;">submit</button>
+              </div>
+          </form>
         </div>
     </div>
 </div>

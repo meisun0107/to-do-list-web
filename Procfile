@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath toDoList toDoList.wsgi --timeout 120

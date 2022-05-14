@@ -47,10 +47,6 @@
 .todo-item.editing .todo-actions .edit-icon {
     display: none !important;
 }
-
-#line-through{
-        text-decoration:line-through;
-      }
     </style>
 </head>
 
@@ -122,113 +118,59 @@
             <!-- Todo list section -->
             <div class="row mx-1 px-5 pb-3 w-80">
                 <div class="col mx-auto">
-                    <table class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th scope="col">Task Name</th>
-                            <th scope="col">Due On</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Complete</th>
-                            <th scope="col">Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody class="no-underline">
-                        
+
                     {% for task in todolist %}
-
-      {% if task.complete == True%}
-      <tr>
-        <td id="line-through">{{task.title}}</td>
-        <td>{{task.due_date}}</td>
-        <td><a class="text-secondary" href="#">Uneditable</a></td>
-          <td>
-          <form method="POST" action="/change_status/">
-            {% csrf_token %}
-            <input name="id" type="hidden" value="{{task.id}}" >
-            <input name="status" type="hidden" value="False" >
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0" >Undo</button>
-          </form>
-        </td>
-        <td>
-           <!-- Button trigger modal -->
-            <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" class="btn btn-outline-success my-2 my-sm-0" >delete</button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Please Comfirm</h5>
-                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+            <div class="row px-3 align-items-center todo-item rounded">
+                <div class="col-auto m-1 p-0 d-flex align-items-center">
+                    <h2 class="m-0 p-0">
+            
+                            {% if task.complete == False %}
+                            <form method="POST" nctype="multipart/form-data" action="/change_status/"method="POST" role="form" >
+                                {% csrf_token %}
+                            <input name="id" type="hidden" value="{{task.id}}" >
+                            <input name="status" type="hidden" value="True" >
+                            <button type="submit" class="btn btn-outline-success my-2 my-sm-0" >complete</button>
+                        </form>
+                            {% else %}
+                            <form method="POST" nctype="multipart/form-data" action="/change_status/" method="POST" role="form" >
+                                {% csrf_token %}
+                            <input name="id" type="hidden" value="{{task.id}}" >
+                            <input name="status" type="hidden" value="False" >
+                            <button type="submit" class="btn btn-outline-success my-2 my-sm-0" >Undo</button>
+                        </form>
+                            {% endif %}
+        
+                    </h2>
                 </div>
-                <div class="modal-body">
-                    ⚠️ Are you sure you want to delete this task: {{task.title}}
+                <div class="col px-1 m-1 d-flex align-items-center">
+                    {% if task.complete == true %}
+                    <p><strike>{{task.title}}</strike></p>
+                    {% else %}
+                    <input type="text" class="form-control form-control-lg border-0 edit-todo-input bg-transparent rounded px-3" readonly value="{{task.title}}" title="{{task.title}}" />
+                    <input type="text" class="form-control form-control-lg border-0 edit-todo-input rounded px-3 d-none" value="{{task.title}}" />
+                    {% endif %}
+    
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <form method="POST" action="/delete_task/">
-                    {% csrf_token %}
-                    <input name="id" type="hidden" value="{{task.id}}" >
-                     <button type="submit" class="btn btn-primary" style="background-color: rgb(255, 0, 123)!important; border-color:  rgb(255, 0, 123)!important;">Yes, I want to delete it!</button>
-                  </form>
+                <div class="col-auto m-1 p-0 px-3 d-none">
                 </div>
-              </div>
+                <div class="col-auto m-1 p-0 todo-actions">
+                    <div class="row d-flex align-items-center justify-content-end">
+                        <h5 class="m-0 p-0 px-2">
+                            <i class="fa fa-pencil text-info btn m-0 p-0" data-toggle="tooltip" data-placement="bottom" title="Edit todo"></i>
+                        </h5>
+                        <h5 class="m-0 p-0 px-2">
+                            <i class="fa fa-trash-o text-danger btn m-0 p-0" data-toggle="tooltip" data-placement="bottom" title="Delete todo"></i>
+                        </h5>
+                    </div>
+                    <div class="row todo-created-info">
+                        <div class="col-auto d-flex align-items-center pr-2">
+                            <i class="fa fa-info-circle my-2 px-2 text-black-50 btn" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Created date"></i>
+                            <label class="date-label my-2 text-black-50">{{task.create_date}}</label>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </td>
-        {% else %}
-        <tr>
-            <td>{{task.title}}</td>
-            <td>{{task.due_date}}</td>
-          <td>
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Edit</button>
-          </td>
-           <td>
-            <form method="POST" action="/change_status/">
-            {% csrf_token %}
-            <input name="id" type="hidden" value="{{task.id}}" >
-            <input name="status" type="hidden" value="True" >
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Complete</button>
-            </form>
-          </td>
-          <td>
-             <!-- Button trigger modal -->
-             <button data-bs-toggle="modal" data-bs-target="#exampleModal2" type="button" class="btn btn-outline-success my-2 my-sm-0" >delete</button>
-
-             <!-- Modal -->
-             <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-               <div class="modal-dialog" role="document">
-                 <div class="modal-content">
-                   <div class="modal-header">
-                     <h5 class="modal-title" id="exampleModalLabel">Please Comfirm</h5>
-                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                     </button>
-                   </div>
-                   <div class="modal-body">
-                       ⚠️ Are you sure you want to delete this task: {{task.title}}
-                   </div>
-                   <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                     <form method="POST" action="/delete_task/">
-                       {% csrf_token %}
-                       <input name="id" type="hidden" value="{{task.id}}" >
-                        <button type="submit" class="btn btn-primary" style="background-color: rgb(255, 0, 123)!important; border-color:  rgb(255, 0, 123)!important;">Yes, I want to delete it!</button>
-                     </form>
-                   </div>
-                 </div>
-               </div>
-             </div>
-        </td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-
-                        </tbody>
-                    </table>
-
+                    {% endfor %}
                 </div>
             </div>
         </div>

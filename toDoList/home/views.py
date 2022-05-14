@@ -22,7 +22,10 @@ def index(request):
 
 def create_task(request):
     title = request.POST.get("title")
-    task = Task(title=strip_tags(title),user=request.user)
+    if request.user.is_authenticated:
+        task = Task(title=strip_tags(title),user=request.user)
+    else:
+        task = Task(title=strip_tags(title),)
     task.save()
     return redirect(reverse("home:index"))
 
@@ -31,5 +34,17 @@ def change_status(request):
     status = request.POST.get("status")
     task.complete = status
     task.save()
+
+    return redirect(reverse("home:index"))
+
+def delete_task(request):
+    task = Task.objects.get(id=request.POST.get("id"))
+    task.delete()
+
+    return redirect(reverse("home:index"))
+
+def edit_task(request):
+    task = Task.objects.get(id=request.POST.get("id"))
+    task.delete()
 
     return redirect(reverse("home:index"))

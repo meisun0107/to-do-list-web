@@ -23,10 +23,11 @@ def index(request):
 @login_required
 def create_task(request):
     title = request.POST.get("title")
+    due_date = request.POST.get("due_date")
     if request.user.is_authenticated:
-        task = Task(title=strip_tags(title),user=request.user)
+        task = Task(title=strip_tags(title), due_date = due_date, user=request.user)
     else:
-        task = Task(title=strip_tags(title),user=None)
+        task = Task(title=strip_tags(title), due_date = due_date, )
     task.save()
     return redirect(reverse("home:index"))
 
@@ -48,9 +49,7 @@ def edit_task(request):
     task = Task.objects.get(id=request.POST.get("id"))
     title = request.POST.get("title")
     due_date = request.POST.get("due_date")
-    print(due_date)
-    if due_date != None:
-        task.due_date = due_date
+    task.due_date = due_date
     task.save()
 
     return redirect(reverse("home:index"))

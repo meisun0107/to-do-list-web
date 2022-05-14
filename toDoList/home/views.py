@@ -45,6 +45,11 @@ def delete_task(request):
 
 def edit_task(request):
     task = Task.objects.get(id=request.POST.get("id"))
-    task.delete()
+    title = request.POST.get("title")
+    due_date = request.POST.get("due_date")
+    print(due_date)
+    if due_date != None:
+        task.due_date = due_date
+    task.save()
 
     return redirect(reverse("home:index"))

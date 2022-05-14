@@ -182,7 +182,41 @@
             <td>{{task.title}}</td>
             <td>{{task.due_date}}</td>
           <td>
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Edit</button>
+             <!-- Button trigger modal -->
+             <button data-bs-toggle="modal" data-bs-target="#exampleModal3" type="button" class="btn btn-outline-success my-2 my-sm-0" >Edit</button>
+
+             <!-- Modal -->
+             <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel3">Edit details</h5>
+                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                   <form id="form-edit" method="POST" action="/edit_task/">
+                    {% csrf_token %}
+                   <div class="modal-body">
+    
+                    <div class="form-group">
+                        <label for="editTodo"></label>
+                        <input name="id" type="hidden" value="{{task.id}}" >
+                        <small id="help" class="form-text text-muted">Edit Task Here</small>
+                        <input name="title" class="form-control form-control-lg" id="editTodo" type="text" value="{{task.title}}" required>
+                        <small id="help" class="form-text text-muted">Task is due on:</small>
+                        <input type="date" class="form-control form-control-lg" name="due_date" value="{{task.due_date}}" required>
+                    </div>
+
+                   </div>
+                   <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: rgb(255, 0, 123)!important; border-color:  rgb(255, 0, 123)!important;">Update My Task</button>
+                   </div>
+                   </form>
+                 </div>
+               </div>
+             </div>
           </td>
            <td>
             <form method="POST" action="/change_status/">
@@ -201,7 +235,7 @@
                <div class="modal-dialog" role="document">
                  <div class="modal-content">
                    <div class="modal-header">
-                     <h5 class="modal-title" id="exampleModalLabel">Please Comfirm</h5>
+                     <h5 class="modal-title" id="exampleModalLabel2">Please Comfirm</h5>
                      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                      </button>

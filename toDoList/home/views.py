@@ -12,14 +12,14 @@ set path for homepage
 
 def index(request):
     template_name = "home/templates/index.html"
-    todolist = Task.objects.filter(complete=False)
+    todolist = Task.objects.filter(user=request.user)
     context = {'todolist': todolist}
     return render(request, template_name=template_name, context=context)
 
 
 def create_task(request):
     title = request.POST.get("title")
-    task = Task(title=strip_tags(title),)
+    task = Task(title=strip_tags(title),user=request.user)
     task.save()
     return redirect(reverse("home:index"))
 

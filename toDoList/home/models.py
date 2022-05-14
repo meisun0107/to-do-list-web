@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
  
 class Task(models.Model):
+    id = models.BigAutoField(auto_created=True, primary_key=True)
     title=models.CharField(max_length=100)
     details=models.TextField()
     create_date=models.DateTimeField(default=timezone.now)

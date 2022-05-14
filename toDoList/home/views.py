@@ -22,3 +22,12 @@ def create_task(request):
     task = Task(title=strip_tags(title),)
     task.save()
     return redirect(reverse("home:index"))
+
+def change_status(request):
+    task = Task.objects.get(id=request.POST.get("id"))
+    status = request.POST.get("status")
+    task.complete = status
+    task.save()
+    print(task.complete)
+
+    return redirect(reverse("home:index"))

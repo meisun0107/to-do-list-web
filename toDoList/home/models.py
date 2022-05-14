@@ -9,7 +9,7 @@ class Task(models.Model):
     create_date=models.DateTimeField(default=timezone.now)
     due_date=models.DateTimeField(blank=True, null=True)
     complete = models.BooleanField(default=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=None, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=None, null=True, on_delete=models.CASCADE)
 
  
     def __str__(self):

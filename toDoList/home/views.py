@@ -4,6 +4,7 @@ from django.utils.html import strip_tags
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 """
 function: index
 
@@ -15,11 +16,11 @@ def index(request):
     if request.user.is_authenticated:
         todolist = Task.objects.filter(user=request.user)
     else:
-        todolist = Task.objects.filter(user=None)
+        todolist = {}
     context = {'todolist': todolist}
     return render(request, template_name=template_name, context=context)
 
-
+@login_required
 def create_task(request):
     title = request.POST.get("title")
     if request.user.is_authenticated:

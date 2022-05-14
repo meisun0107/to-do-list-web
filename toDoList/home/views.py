@@ -25,7 +25,7 @@ def create_task(request):
     if request.user.is_authenticated:
         task = Task(title=strip_tags(title),user=request.user)
     else:
-        task = Task(title=strip_tags(title),)
+        task = Task(title=strip_tags(title),user=None)
     task.save()
     return redirect(reverse("home:index"))
 

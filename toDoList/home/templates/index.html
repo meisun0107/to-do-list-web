@@ -86,7 +86,7 @@
     {% if user.is_authenticated %}
         <button type="submit" class="btn btn-primary" style="position: absolute;
         top: 20px;
-        right: 50px;background-color: rgb(255, 0, 123)!important; border-color:transparent!important;">Hi, {{ user.username }}! Click <a href="{% url 'accounts:logout' %}">here</a> to logout.</button></button>
+        right: 50px;background-color: rgb(255, 0, 123)!important; border-color:transparent!important;">Hi, {{ user.username }}😊 Click <a href="{% url 'accounts:logout' %}">here</a> to logout.</button></button>
     {% else %}
     <button class="btn btn-primary" style="position: absolute;
     top: 20px;
@@ -140,7 +140,7 @@
                 </div>
                 <div class="col-auto d-flex align-items-center px-1 pr-3">
                     <label class="text-secondary my-2 pr-2 view-opt-label">Sort</label>
-                    <select class="custom-select custom-select-sm btn my-2" id="sort">
+                    <select class="custom-select custom-select-sm btn my-2" id="sortby" name="sortby">
                         <option selected>Sorting By</option>
                         <option value="added-date">Added date</option>
                         <option value="due-date">Due date</option>
@@ -313,6 +313,20 @@
 	<script src="{% static 'modules/bootstrap/js/popper.min.js' %}"></script>
 	<script src="{% static 'modules/bootstrap/js/bootstrap.min.js' %}"></script>
 
+    <script>
+        $(document).on('change', 'select#sortby', function () {
+            var sorting = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'home:index' %}",
+                data: {
+                    sortby: sorting,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+  });
+
+});
+    </script>
     {% endblock %}
 	<!-- Scripts -->
 </body>

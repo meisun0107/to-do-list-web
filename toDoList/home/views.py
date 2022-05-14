@@ -21,6 +21,21 @@ def index(request):
     return render(request, template_name=template_name, context=context)
 
 @login_required
+def sorting(request):
+    template_name = "home/templates/index.html"
+    if request.method == "POST":
+        if request.POST.get("sortby") == "added-date" :
+            todolist = Task.objects.filter(user=request.user).order_by('create_date')
+        elif request.POST.get("sortby") == "due-date":
+            todolist = Task.objects.filter(user=request.user).order_by('due_date')
+        else:
+            todolist = Task.objects.filter(user=request.user)
+
+    context = {'todolist': todolist}
+    print(todolist)
+    return render(request, template_name=template_name, context=context)
+
+@login_required
 def create_task(request):
     title = request.POST.get("title")
     due_date = request.POST.get("due_date")

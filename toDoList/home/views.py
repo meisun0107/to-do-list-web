@@ -28,6 +28,5 @@ def change_status(request):
     status = request.POST.get("status")
     task.complete = status
     task.save()
-    print(task.complete)
 
     return redirect(reverse("home:index"))

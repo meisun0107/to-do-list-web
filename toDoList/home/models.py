@@ -4,7 +4,7 @@ from django.utils import timezone
 class Task(models.Model):
     id = models.BigAutoField(auto_created=True, primary_key=True)
     title=models.CharField(max_length=100)
-    details=models.TextField()
+    details=models.TextField(blank=True, null=True)
     create_date=models.DateTimeField(default=timezone.now)
     due_date=models.DateTimeField(blank=True, null=True)
     complete = models.BooleanField(default=False)
